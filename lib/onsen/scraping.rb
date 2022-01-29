@@ -32,17 +32,18 @@ module Onsen
 
     def parse_program(program)
       content = program['contents'].find do |content|
-        content['latest'] && !content['premium']
+        content['new'] && !content['premium']
       end
       return nil if content.nil?
 
       title = Moji.normalize_zen_han(program['title'])
       number = Moji.normalize_zen_han(content['title'])
       update_date_str = content['delivery_date']
-      if update_date_str == ""
-        return nil
+      update_date = if update_date_str.nil? || update_date_str == ""
+        Date.today.to_time
+      else
+        Time.parse(update_date_str)
       end
-      update_date = Time.parse(update_date_str)
 
       file_url = content['streaming_url']
       if file_url == ""
