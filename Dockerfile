@@ -1,4 +1,4 @@
-FROM buildpack-deps:xenial
+FROM buildpack-deps:xenial@sha256:8fa9b4c34e51752c088e219b6d6ed1e79ca6b95a144b544ffce9ec95fe0ff44c
 
 #============
 # Packages
