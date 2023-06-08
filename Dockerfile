@@ -129,8 +129,6 @@ ADD Gemfile.lock /myapp/Gemfile.lock
 ADD niconico /myapp/niconico
 RUN bundle install -j4 --without development test
 ADD . /myapp
-RUN RAILS_ENV=production bundle exec rake db:create db:migrate \
-  && RAILS_ENV=production bundle exec whenever --update-crontab \
-  && chmod 0600 /var/spool/cron/crontabs/root
 
-CMD rsyslogd && /usr/sbin/cron -f
+ENV RAILS_ENV=production
+ENTRYPOINT ["bash", "-c", "bundle exec rake db:create db:migrate && bundle exec whenever --update-crontab && chmod 0600 /var/spool/cron/crontabs/root && rsyslogd && /usr/sbin/cron -f"]
